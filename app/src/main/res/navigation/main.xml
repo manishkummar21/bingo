@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    app:startDestination="@id/splashfragment">
+
+
+    <fragment
+        android:id="@+id/splashfragment"
+        android:name="com.manishk9.bingo.fragment.Splashfragment"
+        android:label="Splashfragment">
+        <action
+            android:id="@+id/action_splashfragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashfragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashfragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashfragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.manishk9.bingo.fragment.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.manishk9.bingo.fragment.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_createJoinRoom"
+            app:destination="@id/createJoinRoom" />
+    </fragment>
+    <fragment
+        android:id="@+id/createJoinRoom"
+        android:name="com.manishk9.bingo.fragment.CreateJoinRoom"
+        android:label="CreateJoinRoom">
+        <action
+            android:id="@+id/action_createJoinRoom_to_roomDetail"
+            app:destination="@id/roomDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomDetail"
+        android:name="com.manishk9.bingo.fragment.RoomDetail"
+        android:label="RoomDetail">
+        <argument
+            android:name="room_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_roomDetail_to_bingoBoardFragment"
+            app:destination="@id/bingoBoardFragment"
+            app:popUpTo="@id/createJoinRoom"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="roomType"
+            app:argType="com.manishk9.bingo.RoomType" />
+    </fragment>
+    <fragment
+        android:id="@+id/bingoBoardFragment"
+        android:name="com.manishk9.bingo.fragment.BingoBoardFragment"
+        android:label="BingoBoardFragment">
+        <argument
+            android:name="roomID"
+            app:argType="string" />
+        <argument
+            android:name="roomType"
+            app:argType="com.manishk9.bingo.RoomType" />
+        <argument
+            android:name="opponentID"
+            app:argType="string" />
+        <argument
+            android:name="currentID"
+            app:argType="string" />
+        <argument
+            android:name="opponentName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_bingoBoardFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

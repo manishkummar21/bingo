@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Bingo</string>
+    <string name="facebook_app_id">805386993434372</string>
+    <string name="fb_login_protocol_scheme">fb805386993434372</string>
+    <string name="play_with_friends">PLAY WITH FRIENDS</string>
+    <string name="create">Create Room</string>
+    <string name="join">Join Room</string>
+    <string name="room_id">Room Code :</string>
+    <string name="start">Start Game</string>
+    <string name="done">Done</string>
+    <string name="start_by_you">You will start the game</string>
+    <string name="start_by_owner">%s will start the game</string>
+    <string name="welcome_back">Welcome Back,</string>
+    <string name="sign_in">Sign into using with social network accounts</string>
+    <string name="sign_fac">Sign in with facebook</string>
+    <string name="sign_google">Sign in with google</string>
+    <string name="or">- OR -</string>
+    <string name="lets_play_your_game">Lets Play your game!</string>
+    <string name="hello_username">Hello, %s,</string>
+    <string name="enter_a_room_code">Enter a Room Code</string>
+    <string name="play_offline">PLAY WITH OFFLINE</string>
+    <string name="v_s">V/S</string>
+    <string name="you">You</string>
+
+</resources>

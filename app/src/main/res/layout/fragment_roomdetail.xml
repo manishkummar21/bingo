@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/roomID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/room_id"
+        android:textColor="#F5F5F5"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/roomCode"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/roomCode" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/roomCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/avenirbold"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/currentUserPic"
+        app:layout_constraintLeft_toRightOf="@id/roomID"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/currentUserPic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rectangle_back"
+        android:padding="1dp"
+        app:layout_constraintBottom_toTopOf="@id/currentUsername"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roomCode"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/currentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/sfprotext_regular"
+        android:textColor="#F5F5F5"
+        app:layout_constraintBottom_toTopOf="@id/vs"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentUserPic" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/avenirbold"
+        android:text="@string/v_s"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/opponentUserPic"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentUsername" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/opponentUserPic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rectangle_back"
+        android:padding="1dp"
+        app:layout_constraintBottom_toTopOf="@id/opponentUsername"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vs"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/opponentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/sfprotext_regular"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/start"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/opponentUserPic" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/start"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:backgroundTint="#ff0082"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/opponentUsername" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenirbold"
+        android:textColor="@color/purple_200"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

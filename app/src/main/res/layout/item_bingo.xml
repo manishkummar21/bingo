@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="node"
+            type="com.manishk9.bingo.model.Node" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/number"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:fontFamily="@font/bowlby_one"
+        android:gravity="center"
+        android:text="@{node.value}"
+        android:textColor="@color/item_textcolor"
+        android:textSize="20sp" />
+
+</layout>
