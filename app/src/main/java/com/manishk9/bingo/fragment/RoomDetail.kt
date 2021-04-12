@@ -13,13 +13,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.MetadataChanges
 import com.google.firebase.firestore.ktx.toObject
 import com.manishk9.bingo.R
 import com.manishk9.bingo.RoomType
+import com.manishk9.bingo.Utils.toConvert
 import com.manishk9.bingo.databinding.FragmentRoomdetailBinding
 import com.manishk9.bingo.model.Room
 import com.manishk9.bingo.model.RoomStatus
@@ -58,7 +57,7 @@ class RoomDetail : Fragment() {
         registerRoom()
         binding.roomCode.text = args.roomId
         auth.currentUser?.let {
-            fetchUserDetails(it.uid)
+            setCurrentUserDetail(it.toConvert())
         }
 
         binding.start.setOnClickListener {
@@ -92,31 +91,27 @@ class RoomDetail : Fragment() {
                 if (roomDetials?.members?.size == 2) {
                     roomDetials.members.let {
                         val opponetID = it.filter { s -> !s.equals(auth.currentUser?.uid) }
-                        fetchUserDetails(opponetID.get(0), true)
+                        fetchUserDetails(opponetID.get(0))
                     }
                 }
             }
         }
     }
 
-    private fun fetchUserDetails(userID: String, isOpponent: Boolean = false) {
+    private fun fetchUserDetails(userID: String) {
         val docRef = db.collection("users").document(userID)
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val user = documentSnapshot.toObject<User>()
             user?.let {
-                if (!isOpponent)
-                    setCurrentUserDetail(it)
-                else {
-                    setOppoUserDetail(it)
-                    showstartButton()
-                    showfooter()
-                }
+                setOpponentUserDetail(it)
+                showStartButton()
+                showFooter()
             }
 
         }
     }
 
-    private fun showfooter() {
+    private fun showFooter() {
         binding.footer.text =
             if (RoomType.Create == args.roomType) resources.getString(R.string.start_by_you) else String.format(
                 Locale.getDefault(),
@@ -132,7 +127,7 @@ class RoomDetail : Fragment() {
         binding.currentUsername.text = user.username ?: user.userEmail ?: "Guest"
     }
 
-    private fun setOppoUserDetail(user: User) {
+    private fun setOpponentUserDetail(user: User) {
         setImage(user.userPic, binding.opponentUserPic)
         binding.opponentUsername.tag = user.userID
         binding.opponentUsername.text = user.username ?: user.userEmail ?: "Guest"
@@ -152,7 +147,7 @@ class RoomDetail : Fragment() {
         }
     }
 
-    private fun showstartButton() {
+    private fun showStartButton() {
         if (args.roomType == RoomType.Create)
             binding.start.visibility = View.VISIBLE
     }

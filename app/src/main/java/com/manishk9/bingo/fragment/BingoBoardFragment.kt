@@ -116,7 +116,7 @@ class BingoBoardFragment : Fragment() {
         binding.overlay.setOnClickListener { }
 
 
-        binding.userboard.setOnCheckedChangeListener { group, checkedId ->
+        binding.userboard.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == binding.currentUsername.id)
                 blinkAnimation(binding.currentUsername)
             else
@@ -132,7 +132,7 @@ class BingoBoardFragment : Fragment() {
             //set message for alert dialog
             builder.setMessage("Are u sure you want to quit the game?")
 
-            builder.setPositiveButton("Yes") { dialogInterface, which ->
+            builder.setPositiveButton("Yes") { _, _ ->
                 val dbRef = db.collection("rooms").document(args.roomID)
                 dbRef.update(
                     "roomStatus",
@@ -145,7 +145,7 @@ class BingoBoardFragment : Fragment() {
                 }
             }
             //performing negative action
-            builder.setNegativeButton("No") { dialogInterface, which ->
+            builder.setNegativeButton("No") { _, _ ->
 
             }
 

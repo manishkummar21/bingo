@@ -4,6 +4,7 @@ import com.facebook.AccessToken
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.manishk9.bingo.ResultWrapper
 import com.manishk9.bingo.model.User
@@ -20,6 +21,14 @@ open class LoginRepo @Inject constructor(
 
     fun doLogin(token: AccessToken) = flow {
         val credentials = FacebookAuthProvider.getCredential(token.token)
+        val result = auth.signInWithCredential(credentials).await()
+        result.user?.let {
+            emit(it)
+        }
+    }
+
+    fun doGoogleLogin(token:String) = flow {
+        val credentials = GoogleAuthProvider.getCredential(token,null)
         val result = auth.signInWithCredential(credentials).await()
         result.user?.let {
             emit(it)

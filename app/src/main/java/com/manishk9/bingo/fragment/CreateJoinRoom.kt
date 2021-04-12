@@ -1,5 +1,6 @@
 package com.manishk9.bingo.fragment
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.manishk9.bingo.RoomType
+import com.manishk9.bingo.Utils
 import com.manishk9.bingo.databinding.FragmentCreatejoinBinding
 import com.manishk9.bingo.model.Room
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,9 @@ class CreateJoinRoom : Fragment() {
     @Inject
     lateinit var db: FirebaseFirestore
 
+    private val progressDialog: Dialog by lazy {
+        Utils.progressDialog(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,10 +48,14 @@ class CreateJoinRoom : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.createRoom.setOnClickListener {
+            progressDialog.show()
+
             auth.currentUser?.let {
-                val room = Room(generateSixDigitRandomNumber(), arrayListOf(it.uid))
+                val room =
+                    Room(generateSixDigitRandomNumber(), arrayListOf(it.uid), createBy = it.uid)
                 db.collection("rooms").document(room.id).set(room)
                     .addOnSuccessListener {
+                        progressDialog.dismiss()
                         findNavController().navigate(
                             CreateJoinRoomDirections.actionCreateJoinRoomToRoomDetail(
                                 room.id,
@@ -54,17 +63,23 @@ class CreateJoinRoom : Fragment() {
                             )
                         )
                     }
-                    .addOnFailureListener { e -> Log.w("", "Error writing document", e) }
-            }
+                    .addOnFailureListener { e ->
+                        Log.w("", "Error writing document", e)
+                        progressDialog.dismiss()
+                    }
+            } ?: progressDialog.dismiss()
 
         }
 
         binding.join.setOnClickListener {
+            progressDialog.show()
             auth.currentUser?.let {
-                if (binding.inputRoom.length() == 6) {
+                if (binding.inputRoom.length() != 0) {
                     val roomID = binding.inputRoom.text.toString()
                     val dbRef = db.collection("rooms").document(roomID)
                     dbRef.update("members", FieldValue.arrayUnion(it.uid)).addOnSuccessListener {
+                        binding.inputRoom.setText("")
+                        progressDialog.dismiss()
                         findNavController().navigate(
                             CreateJoinRoomDirections.actionCreateJoinRoomToRoomDetail(
                                 roomID,
@@ -73,11 +88,14 @@ class CreateJoinRoom : Fragment() {
                         )
                     }
 
-                } else
+                } else {
+                    progressDialog.dismiss()
                     Toast.makeText(requireContext(), "Enter a Code", Toast.LENGTH_LONG).show()
-            }
+                }
+            } ?: progressDialog.dismiss()
 
         }
+
 
     }
 

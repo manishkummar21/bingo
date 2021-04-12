@@ -16,6 +16,9 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,11 +36,20 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val RC_SIGN_IN = 1000
 
     private val model: LoginViewModel by viewModels()
 
     private val callbackManager by lazy {
         CallbackManager.Factory.create()
+    }
+
+    private val googleSignInClient by lazy {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(requireContext(), gso)
     }
 
     private var progressDialog: Dialog? = null
@@ -79,6 +91,12 @@ class LoginFragment : Fragment() {
             binding.loginButton.performClick()
         }
 
+        binding.joinGoogle.setOnClickListener {
+            model.response.postValue(ResultWrapper.Loading)
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
         model.response.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is ResultWrapper.Loading -> {
@@ -101,12 +119,26 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                return
+            }
+        }
         // Pass the activity result back to the Facebook SDK
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
         model.doLogin(token)
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        model.doGoogleLogin(idToken)
     }
 
     override fun onDestroyView() {

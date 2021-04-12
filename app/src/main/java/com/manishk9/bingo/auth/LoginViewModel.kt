@@ -39,4 +39,21 @@ class LoginViewModel @Inject constructor(private val repo: LoginRepo) : ViewMode
                 }
         }
     }
+
+    fun doGoogleLogin(token: String) {
+        viewModelScope.launch {
+            response.postValue(ResultWrapper.Loading)
+            repo.doGoogleLogin(token).flatMapLatest {
+                repo.saveUser(it)
+            }.flowOn(Dispatchers.IO)
+                .catch {
+                    response.postValue(ResultWrapper.Error("Some thing went wrong"))
+                }
+                .collect {
+                    response.postValue(it)
+                }
+        }
+    }
+
+
 }

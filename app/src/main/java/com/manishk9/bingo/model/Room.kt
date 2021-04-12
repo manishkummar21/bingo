@@ -6,7 +6,8 @@ data class Room(
     val roomStatus: RoomStatus = RoomStatus.Created,
     val createTime: Long = System.currentTimeMillis(),
     val quitBy: String? = null,
-    val winBy: String? = null
+    val winBy: String? = null,
+    val createBy: String? = null
 ) {
     constructor() : this("-1", arrayListOf(), RoomStatus.ERROR)
 }
