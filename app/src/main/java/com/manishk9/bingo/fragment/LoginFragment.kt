@@ -15,6 +15,7 @@ import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -107,6 +108,7 @@ class LoginFragment : Fragment() {
                 }
                 is ResultWrapper.Error -> {
                     progressDialog?.dismiss()
+                    Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
                 }
                 is ResultWrapper.Success -> {
                     progressDialog?.dismiss()
@@ -134,6 +136,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
+        LoginManager.getInstance().logOut();
         model.doLogin(token)
     }
 

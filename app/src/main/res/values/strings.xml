@@ -21,5 +21,6 @@
     <string name="play_offline">PLAY WITH OFFLINE</string>
     <string name="v_s">V/S</string>
     <string name="you">You</string>
+    <string name="collision_email">An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.</string>
 
 </resources>
